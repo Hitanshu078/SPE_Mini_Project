@@ -1,0 +1,20 @@
+# Only pom.xml and src/ are needed to build the image
+target/
+.git/
+.gitignore
+.gitattributes
+.idea/
+.vscode/
+*.iml
+.mvn/
+mvnw
+mvnw.cmd
+Dockerfile
+.dockerignore
+docker-compose.yml
+Jenkinsfile
+nginx/
+*.md
+*.docx
+LICENSE
+.env
