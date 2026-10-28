@@ -1,0 +1,4 @@
+# Force LF line endings so scripts work on Linux (Jenkins/Docker run on Ubuntu)
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.jar binary
