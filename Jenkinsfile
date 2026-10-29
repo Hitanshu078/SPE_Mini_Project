@@ -108,7 +108,7 @@ pipeline {
         }
     }
 
-        post {
+    post {
         success {
             emailext(
                 to: "${env.NOTIFY_EMAIL}",
