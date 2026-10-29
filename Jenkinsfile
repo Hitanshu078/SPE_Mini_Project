@@ -130,9 +130,9 @@ Console output: ${env.BUILD_URL}console""",
                 attachLog: true
             )
         }
-        always {
-            // Remove dangling image layers left behind by rebuilds
-            sh 'docker image prune -f || true'
-        }
+        // always {
+        //     // Remove dangling image layers left behind by rebuilds
+        //     sh 'docker image prune -f || true'
+        // }
     }
 }
