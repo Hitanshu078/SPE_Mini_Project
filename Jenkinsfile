@@ -111,7 +111,7 @@ pipeline {
     post {
         success {
             emailext(
-                to: "${NOTIFY_EMAIL}",
+                to: "hitanshu078@gmail.com",
                 subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} succeeded.
 
@@ -120,9 +120,10 @@ The calculator stack has been deployed and is healthy.
 Build details: ${env.BUILD_URL}"""
             )
         }
+
         failure {
             emailext(
-                to: "${NOTIFY_EMAIL}",
+                to: "hitanshu078@gmail.com",
                 subject: "FAILURE: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
                 body: """Build #${env.BUILD_NUMBER} of ${env.JOB_NAME} failed.
 
@@ -130,9 +131,5 @@ Console output: ${env.BUILD_URL}console""",
                 attachLog: true
             )
         }
-        // always {
-        //     // Remove dangling image layers left behind by rebuilds
-        //     sh 'docker image prune -f || true'
-        // }
     }
 }
