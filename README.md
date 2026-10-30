@@ -68,7 +68,9 @@ $ curl "http://localhost:8081/api/v1/divide?a=5&b=0"
 ├── pom.xml, mvnw, .mvn/                        # Maven build + wrapper
 ├── Dockerfile, .dockerignore                   # multi-stage image
 ├── docker-compose.yml, nginx/nginx.conf        # deployment stack
-└── Jenkinsfile                                 # CI/CD pipeline
+├── Jenkinsfile                                 # CI/CD pipeline
+├── docs/UBUNTU_SETUP.md                        # step-by-step Jenkins/Docker setup
+└── screenshots/                                # proof of a working pipeline
 ```
 
 ## Build, test and run locally
@@ -126,7 +128,7 @@ The `X-Upstream-Server` response header shows which replica handled the request.
 | Push         | Logs in to Docker Hub with Jenkins credentials and pushes both tags        |
 | Deploy       | `docker compose up -d --wait` with the new tag                             |
 | Verify       | Curls `/actuator/health` and a sample API call through Nginx               |
-| Post         | Emails build success/failure, prunes dangling images                       |
+| Post         | Emails build success/failure to the configured address                     |
 
 The pipeline can be re-run safely. `docker compose up -d` only recreates containers whose image changed, and `disableConcurrentBuilds()` stops two builds from deploying at the same time.
 
@@ -161,3 +163,39 @@ The pipeline can be re-run safely. `docker compose up -d` only recreates contain
    - **Webhook (optional):** expose Jenkins with `ngrok http 8080`. In GitHub, go to repo → Settings → Webhooks and add `https://<ngrok-domain>/github-webhook/` (content type `application/json`, *push* events).
 
 No credentials are stored in this repository. Docker Hub and SMTP secrets live only in the Jenkins credentials store.
+
+## Results
+
+The screenshots below come from a real run on Pop!_OS (Ubuntu-based) with Jenkins 2.568.2.
+
+**Jenkins: every stage passed (build #8)**
+
+![Jenkins stages](screenshots/jenkins-stages.jpeg)
+
+**Jenkins job page: latest test result, no failures**
+
+![Jenkins job](screenshots/jenkins-success.jpeg)
+
+**Docker Hub: image pushed with the `latest` and build-number tags**
+
+![Docker Hub](screenshots/docker-hub.jpeg)
+
+**Deployed stack: Nginx and 2 calculator replicas, all healthy**
+
+![docker ps](screenshots/docker-compose-ps.jpeg)
+
+**API through Nginx: health, add, subtract, multiply, divide**
+
+The `X-Upstream-Server` header alternates between `172.18.0.2` and `172.18.0.3`, which shows Nginx sharing requests between the two replicas.
+
+![API responses 1](screenshots/api-responses-1.jpeg)
+![API responses 2](screenshots/api-responses-2.jpeg)
+![API responses 3](screenshots/api-responses-3.jpeg)
+
+**Error handling: division by zero returns HTTP 400 with a JSON error**
+
+![Divide by zero](screenshots/divide-by-zero.jpeg)
+
+**Email notification sent by Jenkins after a successful build**
+
+![Email](screenshots/email-notification.jpeg)
