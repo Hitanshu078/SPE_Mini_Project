@@ -27,7 +27,7 @@ class CalculatorControllerIntegrationTest {
         mockMvc.perform(get("/api/v1/add").param("a", "2").param("b", "3"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("{\"operation\":\"add\",\"a\":2,\"b\":3,\"result\":6}"));
+                .andExpect(content().json("{\"operation\":\"add\",\"a\":2,\"b\":3,\"result\":5}"));
     }
 
     @Test
