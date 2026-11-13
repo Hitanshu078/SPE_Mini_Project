@@ -199,3 +199,5 @@ The `X-Upstream-Server` header alternates between `172.18.0.2` and `172.18.0.3`,
 **Email notification sent by Jenkins after a successful build**
 
 ![Email](screenshots/email-notification.jpeg)
+
+Live CI/CD demonstration - November 2026
